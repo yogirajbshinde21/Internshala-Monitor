@@ -1,0 +1,49 @@
+{
+  "search_categories": [
+    "web-development",
+    "software-development",
+    "information-technology",
+    "javascript-development",
+    "python/django-development",
+    "node.js-development",
+    "full-stack-development"
+  ],
+  "keywords": [
+    "full stack",
+    "full-stack developer",
+    "mern stack",
+    "web development",
+    "software development",
+    "javascript development",
+    "python",
+    "django",
+    "node.js",
+    "react"
+  ],
+  "locations": [
+    "Mumbai",
+    "Thane",
+    "Mohana",
+    "Diju",
+    "Rajshahi",
+    "Rentachintala",
+    "Ankleshwar",
+    "Tiruvallur",
+    "Sindagi",
+    "Falna",
+    "Laxmipuram",
+    "Sarvareddi Khandrika",
+    "Chuo",
+    "Isukapalle",
+    "Subarnapur",
+    "Work From Home",
+    "Work from home",
+    "Remote",
+    "In-office"
+  ],
+  "work_mode": ["In-office", "Work from home"],
+  "internship_type": "Internships",
+  "min_stipend": 5000,
+  "max_days_old": 3,
+  "check_interval_minutes": 120
+}

@@ -17,6 +17,13 @@
    - Copy the 16-character password (format: xxxx xxxx xxxx xxxx)
    - **Save this password** - you'll need it for the .env file
 
+3. **Enable IMAP Access** (Required for Auto-Cleanup)
+   - Go to Gmail Settings: https://mail.google.com/mail/u/0/#settings/fwdandpop
+   - Click "Forwarding and POP/IMAP" tab
+   - Under "IMAP access", select **"Enable IMAP"**
+   - Click "Save Changes"
+   - This allows the system to automatically delete old notification emails
+
 ### Step 2: Create .env File
 
 1. Copy `.env.example` to `.env`:
@@ -126,6 +133,12 @@ For automated monitoring every 2 hours:
 - Verify the workflow file is in `.github/workflows/monitor.yml`
 - Check the Actions tab for error logs
 
+### "IMAP Error" or cleanup failing
+- Make sure IMAP is enabled in Gmail settings (see Step 1.3 above)
+- Verify you're using the App Password, not your regular Gmail password
+- Check that your Gmail account has 2-Factor Authentication enabled
+- The cleanup feature is optional - emails will still be sent even if cleanup fails
+
 ## 📊 Expected Output
 
 When running `python main.py`, you should see:
@@ -158,6 +171,14 @@ When running `python main.py`, you should see:
 
 📧 Sending email notification...
 ✅ Email notification sent successfully!
+
+🗑️  Starting email cleanup (deleting emails older than 2 days)...
+🗑️  Deleted email from 2025-11-28 15:30
+🗑️  Deleted email from 2025-11-27 09:15
+
+✅ Cleanup complete!
+   📧 Deleted: 2 emails
+   📬 Kept: 3 emails (within 2 days)
 ```
 
 ## 🎯 Next Steps

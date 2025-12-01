@@ -45,5 +45,20 @@
   "internship_type": "Internships",
   "min_stipend": 5000,
   "max_days_old": 3,
-  "check_interval_minutes": 120
+  "notification_settings": {
+    "check_interval_hours": 2,
+    "min_internships_to_notify": 1,
+    "batch_notifications": true,
+    "quiet_hours": {
+      "enabled": true,
+      "start_hour": 22,
+      "end_hour": 8
+    },
+    "max_emails_per_day": 6,
+    "digest_mode": false
+  },
+  "email_cleanup": {
+    "enabled": true,
+    "retention_days": 2
+  }
 }

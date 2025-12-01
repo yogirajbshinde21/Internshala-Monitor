@@ -37,6 +37,22 @@
 - Automatic execution on schedule: `0 */2 * * *`
 - Uses encrypted secrets for credentials
 
+### 6. Auto Email Cleanup (NEW!)
+- **Automatically deletes old notification emails after 2 days**
+- Connects via IMAP to Gmail
+- Only deletes emails with subject "New Internshala Opportunities"
+- Runs after every monitor cycle
+- Keeps your inbox clean without manual intervention
+
+### 7. Production-Grade Anti-Clutter System (NEW!)
+- **Configurable check interval** (1-24 hours)
+- **Quiet hours** - No nighttime notifications (configurable)
+- **Minimum internship threshold** - Only notify when X+ internships found
+- **Daily email limit** - Cap emails per day to prevent spam
+- **Smart batching** - Accumulate and send digest emails
+- **Real-time tracking** - Shows emails sent today, next notification time
+- **5 preset configurations** - From aggressive to zen mode
+
 ## 📊 TEST RESULTS
 
 **Latest Test Run:**
@@ -57,7 +73,7 @@
 **config.json:**
 ```json
 {
-  "max_days_old": 3,  // Only show internships ≤ 3 days old
+  "max_days_old": 3,
   "min_stipend": 5000,
   "locations": [
     "Work from home", "Mumbai", "Thane", "Navi Mumbai",
@@ -67,11 +83,21 @@
     "full stack", "web development", "software", 
     "python", "javascript", "react", "node"
   ],
-  "email": {
-    "smtp_server": "smtp.gmail.com",
-    "smtp_port": 465,
-    "sender_email": "your-email@gmail.com",
-    "recipient_email": "your-email@gmail.com"
+  "notification_settings": {
+    "check_interval_hours": 2,
+    "min_internships_to_notify": 1,
+    "batch_notifications": true,
+    "quiet_hours": {
+      "enabled": true,
+      "start_hour": 22,
+      "end_hour": 8
+    },
+    "max_emails_per_day": 6,
+    "digest_mode": false
+  },
+  "email_cleanup": {
+    "enabled": true,
+    "retention_days": 2
   }
 }
 ```
@@ -80,20 +106,27 @@
 
 1. **scraper.py** - Multi-category scraper with recency filtering
 2. **email_sender.py** - HTML email notifications
-3. **main.py** - Orchestrator script
-4. **config.json** - User preferences
-5. **requirements.txt** - Python dependencies
-6. **.env** - Email credentials (Gmail App Password)
-7. **.github/workflows/monitor.yml** - Automation schedule
-8. **data/seen_internships.json** - Duplicate tracking
+3. **email_cleanup.py** - Auto-delete old emails
+4. **notification_manager.py** - Smart notification delivery system (NEW!)
+5. **main.py** - Orchestrator script with anti-clutter logic
+6. **config.json** - User preferences + notification settings
+7. **requirements.txt** - Python dependencies
+8. **.env** - Email credentials (Gmail App Password)
+9. **.github/workflows/monitor.yml** - Automation schedule (configurable)
+10. **data/seen_internships.json** - Duplicate tracking
+11. **data/daily_email_log.json** - Email count tracker
+12. **data/pending_batch.json** - Batched internships for digest
+13. **ANTI_CLUTTER_GUIDE.md** - Complete anti-clutter documentation (NEW!)
 
 ## 🚀 HOW TO USE
 
 ### Local Testing:
 ```powershell
 cd "d:\Yogiraj Internshala Testing\internshala-monitor"
-python scraper.py  # Test scraper only
-python main.py     # Test full system (scraper + email)
+python scraper.py              # Test scraper only
+python email_cleanup.py        # Test email cleanup only
+python notification_manager.py # Check your notification settings
+python main.py                 # Test full system (all features)
 ```
 
 ### GitHub Actions Setup:
@@ -105,10 +138,21 @@ python main.py     # Test full system (scraper + email)
 4. Check "Actions" tab to see execution logs
 
 ### Adjust Settings:
-- **Change recency filter**: Edit `"max_days_old"` in config.json (3 = last 3 days)
-- **Add locations**: Add to `"locations"` array in config.json
-- **Change stipend**: Edit `"min_stipend"` value
-- **Change schedule**: Edit cron in `.github/workflows/monitor.yml`
+- **Change check frequency**: Edit `check_interval_hours` in config.json (2 = every 2 hours)
+- **Change GitHub schedule**: Edit cron in `.github/workflows/monitor.yml`
+  - Every 1 hour: `'0 * * * *'`
+  - Every 4 hours: `'0 */4 * * *'`
+  - Twice daily: `'0 9,18 * * *'`
+- **Change quiet hours**: Edit `quiet_hours` → `start_hour` and `end_hour`
+- **Change email limit**: Edit `max_emails_per_day` (6 = max 6 emails per day)
+- **Change minimum threshold**: Edit `min_internships_to_notify`
+- **Enable digest mode**: Set `digest_mode: true` to batch all emails
+- **Change recency filter**: Edit `max_days_old` (3 = last 3 days)
+- **Change email retention**: Edit `retention_days` in `email_cleanup`
+- **Add locations**: Add to `locations` array
+- **Change stipend**: Edit `min_stipend` value
+
+**See ANTI_CLUTTER_GUIDE.md for preset configurations!**
 
 ## 🎯 KEY IMPROVEMENTS MADE
 

@@ -1,9 +1,18 @@
 name: Internshala Monitor
 
 on:
-  # Run every 2 hours
+  # Configurable schedule - runs every 2 hours by default
+  # To change frequency, update the cron expression:
+  # Every 1 hour:  '0 * * * *'
+  # Every 2 hours: '0 */2 * * *'
+  # Every 4 hours: '0 */4 * * *'
+  # Every 6 hours: '0 */6 * * *'
+  # Every 8 hours: '0 */8 * * *'
+  # Every 12 hours: '0 */12 * * *'
+  # Once daily at 9 AM: '0 9 * * *'
+  # Twice daily (9 AM & 6 PM): '0 9,18 * * *'
   schedule:
-    - cron: '0 */2 * * *'
+    - cron: '0 */2 * * *'  # Default: Every 2 hours
   
   # Allow manual triggering
   workflow_dispatch:
@@ -55,7 +64,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/seen_internships.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update seen internships - $(date '+%Y-%m-%d %H:%M:%S')"
+          git add data/seen_internships.json data/daily_email_log.json data/pending_batch.json 2>/dev/null || true
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update monitoring data - $(date '+%Y-%m-%d %H:%M:%S')"
           git push
         continue-on-error: true
